@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import HTMLFlipBook from "react-pageflip";
 
 // Page Components
@@ -49,6 +48,9 @@ const StoryPage = React.forwardRef(({ content, pageNumber }, ref) => {
           {content.subText && (
             <p className="story-subtext">{content.subText}</p>
           )}
+          {content.quote && (
+            <div className="story-quote">"{content.quote}"</div>
+          )}
         </div>
 
         {content.isEnd && (
@@ -61,141 +63,196 @@ const StoryPage = React.forwardRef(({ content, pageNumber }, ref) => {
   );
 });
 
-// Story content array
+// Story content array for Goldilocks
 const STORY_PAGES = [
   {
-    text: "Once upon a time there were four little Rabbits, and their names were—",
-    characterNames: ["Flopsy,", "Mopsy,", "Cotton-tail,", "and Peter."],
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter08.jpg",
-    alt: "The four little rabbits"
+    text: "Once upon a time there were three Bears, who lived together in a house of their own, in a wood.",
+    characterNames: ["Little Wee Bear,", "Middle-sized Bear,", "and Great Big Bear"],
+    illustration: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=500&h=400&fit=crop",
+    alt: "Three bears in their cozy woodland home"
   },
   {
-    text: "They lived with their Mother in a sand-bank, underneath the root of a very big fir-tree.",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter11.jpg",
-    alt: "Mother Rabbit talking to her children"
+    text: "They had each a bowl for their porridge; a little bowl for the Little Wee Bear; and a middle-sized bowl for the Middle-sized Bear; and a great bowl for the Great Big Bear.",
+    illustration: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&h=400&fit=crop",
+    alt: "Three different sized bowls for porridge"
   },
   {
-    text: "'Now my dears,' said old Mrs. Rabbit one morning, 'you may go into the fields or down the lane, but don't go into Mr. McGregor's garden: your Father had an accident there; he was put in a pie by Mrs. McGregor.'",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter12.jpg",
-    alt: "Mrs. Rabbit giving instructions"
+    text: "And they had each a chair to sit in; a little chair for the Little Wee Bear; and a middle-sized chair for the Middle-sized Bear; and a great chair for the Great Big Bear.",
+    illustration: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=500&h=400&fit=crop",
+    alt: "Three different sized chairs"
   },
   {
-    text: "'Now run along, and don't get into mischief. I am going out.'",
-    subText: "Then old Mrs. Rabbit took a basket and her umbrella, and went through the wood to the baker's. She bought a loaf of brown bread and five currant buns.",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter15.jpg",
-    alt: "Mrs. Rabbit leaving"
+    text: "And they had each a bed to sleep in; a little bed for the Little Wee Bear; and a middle-sized bed for the Middle-sized Bear; and a great bed for the Great Big Bear.",
+    illustration: "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=500&h=400&fit=crop",
+    alt: "Three different sized beds"
   },
   {
-    text: "Flopsy, Mopsy, and Cotton-tail, who were good little bunnies, went down the lane to gather blackberries:",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter16.jpg",
-    alt: "The good little bunnies"
+    text: "One day, after they had made the porridge for their breakfast, and poured it into their porridge-bowls, they walked out into the wood while the porridge was cooling.",
+    subText: "They were polite, well-brought-up Bears who didn't want to burn their mouths by beginning too soon.",
+    illustration: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=500&h=400&fit=crop",
+    alt: "Bears walking through the forest"
   },
   {
-    text: "But Peter, who was very naughty, ran straight away to Mr. McGregor's garden, and squeezed under the gate!",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter19.jpg",
-    alt: "Peter squeezing under the gate"
+    text: "While they were away, a little girl called Goldilocks, who lived at the other side of the wood, passed by the house and looked in at the window.",
+    subText: "She had been sent on an errand by her mother, but she was not at all a well-brought-up little girl.",
+    illustration: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&h=400&fit=crop",
+    alt: "Goldilocks peering through the window"
   },
   {
-    text: "First he ate some lettuces and some French beans; and then he ate some radishes;",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter20.jpg",
-    alt: "Peter eating in the garden"
+    text: "Then seeing nobody in the house, she lifted the latch. The door was not fastened, because the Bears were good Bears, who did nobody any harm.",
+    subText: "So Goldilocks opened the door and went in, well pleased when she saw the porridge on the table.",
+    illustration: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=500&h=400&fit=crop",
+    alt: "Goldilocks entering the bears' house"
   },
   {
-    text: "And then, feeling rather sick, he went to look for some parsley.",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter23.jpg",
-    alt: "Peter feeling sick"
+    text: "First she tasted the porridge of the Great Big Bear, and that was too hot for her.",
+    illustration: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=500&h=400&fit=crop",
+    alt: "Goldilocks tasting the Great Big Bear's porridge"
   },
   {
-    text: "But round the end of a cucumber frame, whom should he meet but Mr. McGregor!",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter24.jpg",
-    alt: "Peter meets Mr. McGregor"
+    text: "Next she tasted the porridge of the Middle-sized Bear, but that was too cold for her.",
+    illustration: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&h=400&fit=crop",
+    alt: "Goldilocks trying the Middle-sized Bear's porridge"
   },
   {
-    text: "Mr. McGregor was on his hands and knees planting out young cabbages, but he jumped up and ran after Peter, waving a rake and calling out, 'Stop thief!'",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter27.jpg",
-    alt: "Mr. McGregor chasing Peter"
+    text: "And then she went to the porridge of the Little Wee Bear, and tasted it, and that was neither too hot nor too cold, but just right!",
+    subText: "She liked it so well that she ate it all up, every bit!",
+    illustration: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&h=400&fit=crop",
+    alt: "Goldilocks eating all of Little Wee Bear's porridge"
   },
   {
-    text: "Peter was most dreadfully frightened; he rushed all over the garden, for he had forgotten the way back to the gate. He lost one of his shoes among the cabbages, and the other shoe amongst the potatoes.",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter28.jpg",
-    alt: "Peter running frightened"
+    text: "Then Goldilocks, who was tired from catching butterflies instead of running her errand, sat down in the chair of the Great Big Bear, but that was too hard for her.",
+    illustration: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=500&h=400&fit=crop",
+    alt: "Goldilocks in the Great Big Bear's hard chair"
   },
   {
-    text: "After losing them, he ran on four legs and went faster, so that I think he might have got away altogether if he had not unfortunately run into a gooseberry net, and got caught by the large buttons on his jacket. It was a blue jacket with brass buttons, quite new.",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter31.jpg",
-    alt: "Peter caught in the gooseberry net"
+    text: "And then she sat down in the chair of the Middle-sized Bear, and that was too soft for her.",
+    illustration: "https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=500&h=400&fit=crop",
+    alt: "Goldilocks sinking into the Middle-sized Bear's soft chair"
   },
   {
-    text: "Peter gave himself up for lost, and shed big tears; but his sobs were overheard by some friendly sparrows, who flew to him in great excitement, and implored him to exert himself.",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter32.jpg",
-    alt: "Peter crying for help"
+    text: "But when she sat down in the chair of the Little Wee Bear, that was neither too hard nor too soft, but just right.",
+    subText: "So she seated herself in it, and there she sat till the bottom of the chair came out, and down she came, plump upon the ground!",
+    illustration: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=500&h=400&fit=crop",
+    alt: "Goldilocks breaking the Little Wee Bear's chair"
   },
   {
-    text: "Mr. McGregor came up with a sieve, which he intended to pop upon the top of Peter; but Peter wriggled out just in time, leaving his jacket behind him.",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter35.jpg",
-    alt: "Peter escaping from Mr. McGregor"
+    text: "Now, being determined to rest, Goldilocks went upstairs into the bedchamber where the Three Bears slept.",
+    illustration: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=500&h=400&fit=crop",
+    alt: "Goldilocks going upstairs to the bedroom"
   },
   {
-    text: "And rushed into the tool-shed, and jumped into a can. It would have been a beautiful thing to hide in, if it had not had so much water in it.",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter36.jpg",
-    alt: "Peter hiding in the tool-shed"
+    text: "First she lay down upon the bed of the Great Big Bear, but that was too high at the head for her.",
+    illustration: "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=500&h=400&fit=crop",
+    alt: "Goldilocks on the Great Big Bear's bed"
   },
   {
-    text: "Mr. McGregor was quite sure that Peter was somewhere in the tool-shed, perhaps hidden underneath a flower-pot. He began to turn them over carefully, looking under each. Presently Peter sneezed—'Kertyschoo!' Mr. McGregor was after him in no time.",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter39.jpg",
-    alt: "Mr. McGregor searching"
+    text: "And next she lay down upon the bed of the Middle-sized Bear, and that was too high at the foot for her.",
+    illustration: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=500&h=400&fit=crop",
+    alt: "Goldilocks trying the Middle-sized Bear's bed"
   },
   {
-    text: "And tried to put his foot upon Peter, who jumped out of a window, upsetting three plants. The window was too small for Mr. McGregor, and he was tired of running after Peter. He went back to his work.",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter40.jpg",
-    alt: "Peter jumping out the window"
+    text: "And then she lay down upon the bed of the Little Wee Bear, and that was neither too high at the head nor at the foot, but just right.",
+    subText: "So she covered herself up comfortably, and lay there till she fell fast asleep.",
+    illustration: "https://images.unsplash.com/photo-1541781408260-0c53119cd761?w=500&h=400&fit=crop",
+    alt: "Goldilocks sleeping peacefully in Little Wee Bear's bed"
   },
   {
-    text: "Peter sat down to rest; he was out of breath and trembling with fright, and he had not the least idea which way to go. Also he was very damp with sitting in that can. After a time he began to wander about, going lippity—lippity—not very fast, and looking all round.",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter43.jpg",
-    alt: "Peter resting and frightened"
+    text: "By this time the Three Bears thought their porridge would be cool enough, so they came home to breakfast.",
+    subText: "But careless Goldilocks had left the spoon of the Great Big Bear standing in his porridge.",
+    illustration: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=500&h=400&fit=crop",
+    alt: "The Three Bears returning home"
   },
   {
-    text: "He found a door in a wall; but it was locked, and there was no room for a fat little rabbit to squeeze underneath. An old mouse was running in and out over the stone doorstep, carrying peas and beans to her family in the wood. Peter asked her the way to the gate, but she had such a large pea in her mouth that she could not answer. She only shook her head at him. Peter began to cry.",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter44.jpg",
-    alt: "Peter finding a locked door"
+    text: "The Great Big Bear looked at his porridge and saw someone had been there.",
+    quote: "SOMEBODY HAS BEEN AT MY PORRIDGE!",
+    subText: "said the Great Big Bear in his great, rough, gruff voice.",
+    illustration: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=500&h=400&fit=crop",
+    alt: "Great Big Bear discovering his disturbed porridge"
   },
   {
-    text: "Then he tried to find his way straight across the garden, but he became more and more puzzled. Presently, he came to a pond where Mr. McGregor filled his water-cans. A white cat was staring at some gold-fish, she sat very, very still, but now and then the tip of her tail twitched as if it were alive. Peter thought it best to go away without speaking to her; he had heard about cats from his cousin, little Benjamin Bunny.",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter47.jpg",
-    alt: "Peter by the pond with the cat"
+    text: "Then the Middle-sized Bear looked at his porridge and saw the spoon was standing in it too.",
+    quote: "SOMEBODY HAS BEEN AT MY PORRIDGE!",
+    subText: "said the Middle-sized Bear in his middle-sized voice.",
+    illustration: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=500&h=400&fit=crop",
+    alt: "Middle-sized Bear finding his disturbed porridge"
   },
   {
-    text: "He went back towards the tool-shed, but suddenly, quite close to him, he heard the noise of a hoe—scr-r-ritch, scratch, scratch, scritch. Peter scuttered underneath the bushes. But presently, as nothing happened, he came out, and climbed upon a wheelbarrow and peeped over. The first thing he saw was Mr. McGregor hoeing onions. His back was turned towards Peter, and beyond him was the gate!",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter48.jpg",
-    alt: "Peter seeing Mr. McGregor and the gate"
+    text: "Then the Little Wee Bear looked at his bowl, and there was the spoon in the porridge-bowl, but the porridge was all gone!",
+    quote: "SOMEBODY HAS BEEN AT MY PORRIDGE, AND HAS EATEN IT ALL UP!",
+    subText: "said the Little Wee Bear in his little wee voice.",
+    illustration: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=500&h=400&fit=crop",
+    alt: "Little Wee Bear discovering his empty bowl"
   },
   {
-    text: "Peter got down very quietly off the wheelbarrow; and started running as fast as he could go, along a straight walk behind some black-currant bushes. Mr. McGregor caught sight of him at the corner, but Peter did not care. He slipped underneath the gate, and was safe at last in the wood outside the garden.",
-    subText: "Mr. McGregor hung up the little jacket and the shoes for a scare-crow to frighten the blackbirds.",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter51.jpg",
-    alt: "Peter escaping through the gate"
+    text: "Upon this the Three Bears began to look about them. The careless Goldilocks had not put the hard cushion straight when she rose from the Great Big Bear's chair.",
+    quote: "SOMEBODY HAS BEEN SITTING IN MY CHAIR!",
+    subText: "said the Great Big Bear in his great, rough, gruff voice.",
+    illustration: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=500&h=400&fit=crop",
+    alt: "Great Big Bear's disturbed chair"
   },
   {
-    text: "Peter never stopped running or looked behind him till he got home to the big fir-tree. He was so tired that he flopped down upon the nice soft sand on the floor of the rabbit-hole and shut his eyes. His mother was busy cooking; she wondered what he had done with his clothes. It was the second little jacket and pair of shoes that Peter had lost in a fortnight!",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter55.jpg",
-    alt: "Peter home and exhausted"
+    text: "And the careless Goldilocks had squashed down the soft cushion of the Middle-sized Bear.",
+    quote: "SOMEBODY HAS BEEN SITTING IN MY CHAIR!",
+    subText: "said the Middle-sized Bear in his middle-sized voice.",
+    illustration: "https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=500&h=400&fit=crop",
+    alt: "Middle-sized Bear's squashed cushion"
   },
   {
-    text: "I am sorry to say that Peter was not very well during the evening. His mother put him to bed, and made some camomile tea; and she gave a dose of it to Peter! 'One table-spoonful to be taken at bed-time.'",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter57.jpg",
-    alt: "Peter sick in bed"
+    text: "But when the Little Wee Bear came to look at his chair...",
+    quote: "SOMEBODY HAS BEEN SITTING IN MY CHAIR, AND HAS BROKEN IT ALL TO PIECES!",
+    subText: "said the Little Wee Bear in his little wee voice.",
+    illustration: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=500&h=400&fit=crop",
+    alt: "Little Wee Bear's broken chair"
   },
   {
-    text: "But Flopsy, Mopsy, and Cotton-tail had bread and milk and blackberries for supper.",
-    illustration: "https://www.gutenberg.org/cache/epub/14838/images/peter58.jpg",
-    alt: "The good bunnies having supper",
+    text: "Then the Three Bears thought they had better search upstairs in case it was a burglar, so they went up to their bedchamber.",
+    illustration: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=500&h=400&fit=crop",
+    alt: "Three Bears going upstairs to investigate"
+  },
+  {
+    text: "Goldilocks had pulled the pillow of the Great Big Bear out of its place.",
+    quote: "SOMEBODY HAS BEEN LYING IN MY BED!",
+    subText: "said the Great Big Bear in his great, rough, gruff voice.",
+    illustration: "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=500&h=400&fit=crop",
+    alt: "Great Big Bear's disturbed bed"
+  },
+  {
+    text: "And Goldilocks had pulled the bolster of the Middle-sized Bear out of its place.",
+    quote: "SOMEBODY HAS BEEN LYING IN MY BED!",
+    subText: "said the Middle-sized Bear in his middle-sized voice.",
+    illustration: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=500&h=400&fit=crop",
+    alt: "Middle-sized Bear's messed bed"
+  },
+  {
+    text: "But when the Little Wee Bear came to look at his bed, there was the bolster in its place, and the pillow was in its place upon the bolster. And upon the pillow...?",
+    subText: "There was Goldilocks's yellow head—which was not in its place, for she had no business there!",
+    illustration: "https://images.unsplash.com/photo-1541781408260-0c53119cd761?w=500&h=400&fit=crop",
+    alt: "Goldilocks sleeping in Little Wee Bear's bed"
+  },
+  {
+    text: "Now Goldilocks had heard the great, rough, gruff voice of the Great Big Bear in her sleep, but it was like the roaring of wind. She had heard the middle-sized voice too, like someone speaking in a dream.",
+    quote: "SOMEBODY HAS BEEN LYING IN MY BED,—AND HERE SHE IS STILL!",
+    subText: "But when she heard the little wee voice of the Little Wee Bear, it was so sharp and shrill that it awakened her at once!",
+    illustration: "https://images.unsplash.com/photo-1541781408260-0c53119cd761?w=500&h=400&fit=crop",
+    alt: "Goldilocks waking up to find the Three Bears"
+  },
+  {
+    text: "Up she started, and when she saw the Three Bears on one side of the bed, she tumbled herself out at the other, and ran to the window.",
+    subText: "The window was open, because the Bears, like good, tidy Bears as they were, always opened their bedchamber window when they got up in the morning.",
+    illustration: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=500&h=400&fit=crop",
+    alt: "Goldilocks jumping out the window to escape"
+  },
+  {
+    text: "So naughty, frightened little Goldilocks jumped out the window! And whether she broke her neck in the fall, or ran into the wood and was lost there, or found her way out and got whipped for being a bad girl and playing truant, no one can say.",
+    subText: "But the Three Bears never saw anything more of her.",
+    illustration: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=500&h=400&fit=crop",
+    alt: "Goldilocks running away through the forest",
     isEnd: true
   }
 ];
 
-export default function PeterRabbitFlipbook() {
-  const navigate = useNavigate();
+export default function GoldilocksFlipbook() {
   const [isMobile, setIsMobile] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [isBookOpen, setIsBookOpen] = useState(false);
@@ -281,16 +338,15 @@ export default function PeterRabbitFlipbook() {
   };
 
   const startQuiz = () => {
-    console.log("Starting Peter Rabbit Quiz...");
-    // Navigate to Readingstory component
-    navigate('/readingstory');
+    console.log("Starting Goldilocks Quiz...");
+    alert("Quiz feature would be implemented here! 🐻");
   };
 
   if (!imagesLoaded) {
     return (
       <div className="loading-screen">
         <div className="loading-spinner"></div>
-        <p>Loading The Tale of Peter Rabbit...</p>
+        <p>Loading Goldilocks and the Three Bears...</p>
       </div>
     );
   }
@@ -300,7 +356,7 @@ export default function PeterRabbitFlipbook() {
       <style jsx>{`
         .flipbook-app {
           min-height: 100vh;
-          background: linear-gradient(135deg, #faf8f1 0%, #f5f3e9 100%);
+          background: linear-gradient(135deg, #fff8dc 0%, #daa520 100%);
           font-family: 'Georgia', 'Times New Roman', serif;
           display: flex;
           flex-direction: column;
@@ -313,7 +369,7 @@ export default function PeterRabbitFlipbook() {
         .book-title {
           text-align: center;
           margin-bottom: 20px;
-          color: #2d5016;
+          color: #8b4513;
         }
 
         .book-title h1 {
@@ -324,7 +380,7 @@ export default function PeterRabbitFlipbook() {
 
         .book-title p {
           font-size: 1.2rem;
-          color: #567c3e;
+          color: #a0522d;
           font-style: italic;
         }
 
@@ -343,7 +399,7 @@ export default function PeterRabbitFlipbook() {
         .flipbook-instance {
           width: 100%;
           height: 100%;
-          box-shadow: 0 10px 25px rgba(45, 80, 22, 0.15), 0 6px 10px rgba(45, 80, 22, 0.1);
+          box-shadow: 0 10px 25px rgba(139, 69, 19, 0.15), 0 6px 10px rgba(139, 69, 19, 0.1);
           border-radius: 8px;
           overflow: hidden;
         }
@@ -353,7 +409,7 @@ export default function PeterRabbitFlipbook() {
           height: 100%;
           display: flex;
           overflow: hidden;
-          background: #faf8f1;
+          background: #fff8dc;
         }
 
         .page-content {
@@ -374,7 +430,7 @@ export default function PeterRabbitFlipbook() {
           align-items: center;
           justify-content: center;
           text-align: center;
-          color: #2d5016;
+          color: #8b4513;
           padding: 20px;
         }
 
@@ -387,7 +443,7 @@ export default function PeterRabbitFlipbook() {
         .cover-title {
           font-size: 3rem;
           font-weight: bold;
-          color: #2d5016;
+          color: #8b4513;
           text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
           margin-bottom: 1rem;
           letter-spacing: 2px;
@@ -395,20 +451,20 @@ export default function PeterRabbitFlipbook() {
 
         .cover-subtitle {
           font-size: 1.5rem;
-          color: #567c3e;
+          color: #a0522d;
           font-style: italic;
           margin-bottom: 1rem;
         }
 
         .cover-author {
           font-size: 1.3rem;
-          color: #8b7355;
+          color: #d2691e;
           font-weight: 600;
           letter-spacing: 1px;
         }
 
         .story-page {
-          background: #faf8f1;
+          background: #fff8dc;
         }
 
         .story-illustration {
@@ -426,7 +482,7 @@ export default function PeterRabbitFlipbook() {
           max-height: 300px;
           height: auto;
           border-radius: 10px;
-          box-shadow: 0 4px 12px rgba(45, 80, 22, 0.2);
+          box-shadow: 0 4px 12px rgba(139, 69, 19, 0.2);
           object-fit: contain;
         }
 
@@ -434,12 +490,12 @@ export default function PeterRabbitFlipbook() {
           text-align: center;
           font-size: 1.2rem;
           font-style: italic;
-          color: #6b9dc2;
+          color: #cd853f;
           margin: 15px 0;
           padding: 15px;
-          background: rgba(107, 157, 194, 0.1);
+          background: rgba(205, 133, 63, 0.1);
           border-radius: 8px;
-          border: 2px solid rgba(107, 157, 194, 0.3);
+          border: 2px solid rgba(205, 133, 63, 0.3);
         }
 
         .character-name {
@@ -452,14 +508,14 @@ export default function PeterRabbitFlipbook() {
           background: rgba(255, 255, 255, 0.8);
           border-radius: 12px;
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          border: 1px solid rgba(139, 115, 85, 0.2);
+          border: 1px solid rgba(139, 69, 19, 0.2);
         }
 
         .story-text {
           font-size: 1.1rem;
           line-height: 1.8;
           text-align: left;
-          color: #2c3e1d;
+          color: #654321;
           margin-bottom: 15px;
           text-indent: 0;
           font-weight: 400;
@@ -471,37 +527,50 @@ export default function PeterRabbitFlipbook() {
           font-size: 1rem;
           line-height: 1.7;
           text-align: left;
-          color: #567c3e;
+          color: #a0522d;
           font-style: italic;
           margin-bottom: 15px;
           text-indent: 0;
           letter-spacing: 0.2px;
           word-spacing: 1px;
-          border-top: 1px solid rgba(139, 115, 85, 0.3);
+          border-top: 1px solid rgba(139, 69, 19, 0.3);
           padding-top: 15px;
+        }
+
+        .story-quote {
+          font-size: 1.1rem;
+          line-height: 1.6;
+          text-align: center;
+          color: #8b4513;
+          font-weight: bold;
+          margin: 15px 0;
+          padding: 15px;
+          background: rgba(218, 165, 32, 0.1);
+          border-radius: 8px;
+          border-left: 4px solid #daa520;
+          font-style: italic;
         }
 
         .story-end {
           text-align: center;
           font-size: 2rem;
           font-weight: bold;
-          color: #2d5016;
+          color: #8b4513;
           margin: 20px 0;
           padding: 20px;
-          background: linear-gradient(45deg, rgba(143, 188, 143, 0.2), rgba(212, 175, 55, 0.1));
+          background: linear-gradient(45deg, rgba(218, 165, 32, 0.2), rgba(255, 215, 0, 0.1));
           border-radius: 15px;
-          border: 2px solid #8fbc8f;
+          border: 2px solid #daa520;
           position: relative;
         }
 
         .story-end::before,
         .story-end::after {
-          content: "❦";
+          content: "🐻";
           position: absolute;
           top: 50%;
           transform: translateY(-50%);
           font-size: 1.5rem;
-          color: #d4af37;
         }
 
         .story-end::before {
@@ -517,7 +586,7 @@ export default function PeterRabbitFlipbook() {
           bottom: 10px;
           right: 15px;
           font-size: 0.8rem;
-          color: #8b7355;
+          color: #8b4513;
           background-color: rgba(255,255,255,0.7);
           padding: 2px 6px;
           border-radius: 3px;
@@ -529,11 +598,11 @@ export default function PeterRabbitFlipbook() {
           justify-content: center;
           gap: 20px;
           margin-top: 10px;
-          color: #2d5016;
+          color: #8b4513;
         }
 
         .nav-button {
-          background-color: #8fbc8f;
+          background-color: #daa520;
           color: white;
           border: none;
           padding: 10px 20px;
@@ -546,7 +615,7 @@ export default function PeterRabbitFlipbook() {
         }
 
         .nav-button:hover:not(:disabled) {
-          background-color: #567c3e;
+          background-color: #b8860b;
           transform: translateY(-2px);
         }
 
@@ -557,14 +626,14 @@ export default function PeterRabbitFlipbook() {
         }
 
         .quiz-button {
-          background-color: #d4af37;
+          background-color: #ff6347;
           font-size: 1.1rem;
           padding: 12px 24px;
           animation: pulse 2s infinite;
         }
 
         .quiz-button:hover {
-          background-color: #b8941f;
+          background-color: #dc143c;
         }
 
         @keyframes pulse {
@@ -575,14 +644,14 @@ export default function PeterRabbitFlipbook() {
         .page-indicator {
           font-size: 1rem;
           font-weight: 500;
-          color: #567c3e;
+          color: #a0522d;
           font-family: 'Georgia', serif;
         }
 
         .mobile-tip {
           margin-top: 10px;
           font-size: 0.9rem;
-          color: #8b7355;
+          color: #8b4513;
           text-align: center;
           font-style: italic;
         }
@@ -590,12 +659,12 @@ export default function PeterRabbitFlipbook() {
         .loading-screen {
           position: fixed;
           inset: 0;
-          background: linear-gradient(135deg, #faf8f1 0%, #f5f3e9 100%);
+          background: linear-gradient(135deg, #fff8dc 0%, #daa520 100%);
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          color: #2d5016;
+          color: #8b4513;
           z-index: 9999;
         }
 
@@ -603,7 +672,7 @@ export default function PeterRabbitFlipbook() {
           width: 50px;
           height: 50px;
           border: 4px solid #e9ecef;
-          border-top: 4px solid #8fbc8f;
+          border-top: 4px solid #daa520;
           border-radius: 50%;
           animation: spin 1s linear infinite;
           margin-bottom: 20px;
@@ -670,15 +739,15 @@ export default function PeterRabbitFlipbook() {
       `}</style>
 
       <div className="book-title">
-        <h1>The Tale of Peter Rabbit</h1>
-        <p>by Beatrix Potter</p>
+        <h1>Goldilocks and the Three Bears</h1>
+        <p>A Classic Fairy Tale</p>
       </div>
 
       <div
         className="flipbook-wrapper"
         onClick={!isBookOpen ? handleOpenBook : undefined}
         role={!isBookOpen ? "button" : undefined}
-        aria-label={!isBookOpen ? "Open Peter Rabbit storybook" : undefined}
+        aria-label={!isBookOpen ? "Open Goldilocks storybook" : undefined}
         tabIndex={!isBookOpen ? 0 : undefined}
         onKeyPress={!isBookOpen ? (e) => { 
           if (e.key === 'Enter' || e.key === ' ') handleOpenBook(); 
@@ -716,11 +785,11 @@ export default function PeterRabbitFlipbook() {
           {/* Front Cover */}
           <PageCover
             className="front-cover"
-            backgroundImage="https://www.gutenberg.org/cache/epub/14838/images/peter04.jpg"
+            backgroundImage="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=800&h=600&fit=crop"
           >
-            <div className="cover-title">THE TALE OF<br/>PETER RABBIT</div>
-            <div className="cover-subtitle">A Classic Children's Story</div>
-            <div className="cover-author">BY BEATRIX POTTER</div>
+            <div className="cover-title">GOLDILOCKS<br/>AND THE<br/>THREE BEARS</div>
+            <div className="cover-subtitle">A Classic Fairy Tale</div>
+            <div className="cover-author">TRADITIONAL STORY</div>
           </PageCover>
 
           {/* Story Pages */}
@@ -735,11 +804,11 @@ export default function PeterRabbitFlipbook() {
           {/* Back Cover */}
           <PageCover
             className="back-cover"
-            backgroundImage="https://www.gutenberg.org/cache/epub/14838/images/peter04.jpg"
+            backgroundImage="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=800&h=600&fit=crop"
           >
             <div style={{
               padding: '40px',
-              background: 'rgba(250, 248, 241, 0.9)',
+              background: 'rgba(255, 248, 220, 0.9)',
               borderRadius: '15px',
               textAlign: 'center',
               position: 'relative',
@@ -748,20 +817,20 @@ export default function PeterRabbitFlipbook() {
               flexDirection: 'column',
               justifyContent: 'center'
             }}>
-              <h2 style={{color: '#2d5016', marginBottom: '20px'}}>The End</h2>
-              <p style={{color: '#567c3e', fontSize: '1.1rem', lineHeight: 1.6}}>
-                Originally published in 1902 by Frederick Warne & Co.<br/>
-                This classic children's story is now in the public domain.
+              <h2 style={{color: '#8b4513', marginBottom: '20px'}}>The End</h2>
+              <p style={{color: '#a0522d', fontSize: '1.1rem', lineHeight: 1.6}}>
+                This classic fairy tale teaches us about respect for others' property<br/>
+                and the consequences of our actions.
               </p>
               
-              {/* Next Page Button */}
+              {/* Quiz Button */}
               <button
-                 onClick={startQuiz}
+                onClick={startQuiz}
                 style={{
                   position: 'absolute',
                   bottom: '20px',
                   right: '20px',
-                  backgroundColor: '#8fbc8f',
+                  backgroundColor: '#daa520',
                   color: 'white',
                   border: 'none',
                   padding: '10px 16px',
@@ -771,19 +840,19 @@ export default function PeterRabbitFlipbook() {
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
                   fontFamily: 'Georgia, serif',
-                  boxShadow: '0 2px 8px rgba(45, 80, 22, 0.2)'
+                  boxShadow: '0 2px 8px rgba(139, 69, 19, 0.2)'
                 }}
                 onMouseEnter={(e) => {
-                  e.target.style.backgroundColor = '#567c3e';
+                  e.target.style.backgroundColor = '#b8860b';
                   e.target.style.transform = 'translateY(-2px)';
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = '#8fbc8f';
+                  e.target.style.backgroundColor = '#daa520';
                   e.target.style.transform = 'translateY(0)';
                 }}
-                aria-label="Next page"
+                aria-label="Start quiz"
               >
-                Quiz Time!
+                Quiz Time! 🐻
               </button>
             </div>
           </PageCover>
